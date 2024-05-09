@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+public class ControlePagamentos {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Solicitar informações do cliente
+        System.out.print("Por favor, digite seu nome: ");
+        String nomeCliente = scanner.nextLine();
+        System.out.print("Digite o valor total da sua compra: ");
+        double valorDACompra = scanner.nextDouble();
+        System.out.print("Digite o valor que você irá pagar: ");
+        double valorAPagar = scanner.nextDouble();
+
+        // Calcular troco
+        double troco = valorAPagar - valorDACompra;
+
+        // Verificar se o valor pago é suficiente
+        if (troco < 0) {
+            System.out.println("Valor insuficiente para realizar a compra.");
+            return;
+        }
+
+        // Calcular notas do troco
+        int[] notas = calcularTroco(troco);
+
+        // Imprimir recibo
+        System.out.println("\nRecibo de compra:");
+        System.out.println("Cliente: " + nomeCliente);
+        System.out.println("Valor da compra: R$" + valorDACompra);
+        System.out.println("Valor pago: R$" + valorAPagar);
+        System.out.println("Troco a ser devolvido: R$" + troco);
+        System.out.println("Notas do troco:");
+        System.out.println("R$100: " + notas[0]);
+        System.out.println("R$50: " + notas[1]);
+        System.out.println("R$20: " + notas[2]);
+        System.out.println("R$10: " + notas[3]);
+        System.out.println("R$5: " + notas[4]);
+        System.out.println("R$2: " + notas[5]);
+        System.out.println("R$1: " + notas[6]);
+    }
+
+    // Método para calcular as notas do troco
+    public static int[] calcularTroco(double troco) {
+        int[] notas = new int[7]; // notas de R$100, R$50, R$20, R$10, R$5, R$2 e R$1
+
+        int[] valoresNotas = {100, 50, 20, 10, 5, 2, 1};
+
+        for (int i = 0; i < valoresNotas.length; i++) {
+            if (troco >= valoresNotas[i]) {
+                notas[i] = (int) (troco / valoresNotas[i]);
+                troco %= valoresNotas[i];
+            }
+        }
+
+        return notas;
+    }
+}
